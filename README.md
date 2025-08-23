@@ -35,29 +35,33 @@ I realised this project can help both develop and automate a repetitive task.*
 
 ### Phase 1 – Core MVP ✅ (in progress)
 
-* [ ] URL → scrape mission/values text
-* [ ] Summarize with AI (OpenAI GPT-4o-mini)
+* [x] URL → scrape mission/values text
+* [x] Summarize with AI (OpenAI GPT-4o-mini)
 * Streamlit dashboard for interactive use
-    * [ ] Input box for company URL
-    * [ ] Display relevant paragraphs + AI summary
+    * [x] Input box for company URL
+    * [x] Display relevant paragraphs + AI summary
 * [ ] Unit tests for scraping & filtering
 * [ ] Error handling (bad URLs, no values found)
 * [ ] Integration tests
 
-## Phase 2 – History & Export
+## Phase 2 – Crawler
+* [ ] Option to run the application in debug mode (no OpenAI call)
+* [ ] Search company's website subpages
+
+## Phase 3 – History & Export
 
 * [ ] Save analyzed companies (SQLite)
 * [ ] History view inside dashboard
 * [ ] Export summaries (Markdown/PDF)
 * [ ] Tests for persistence and export
 
-## Phase 3 – Smart Analysis
+## Phase 4 – Smart Analysis
 
 * [ ] NLP-based filtering improvements (spaCy / TF-IDF)
 * [ ] Extract & tag company values (e.g. Innovation, Sustainability)
 * [ ] Side-by-side company comparison
 
-## Phase 4 – Production-grade Polish
+## Phase 5 – Production-grade Polish
 
 * [ ] CI/CD with GitHub Actions (linting, tests, coverage)
 * [ ] Dockerfile for reproducibility
@@ -68,4 +72,4 @@ I realised this project can help both develop and automate a repetitive task.*
 
 * [ ] Chrome extension (“Analyze with ValueLens”).
 * [ ] AI-based CV tailoring suggestions.
-* [ ] Multi-source analysis (LinkedIn, Crunchbase, Glassdoor).
+* [ ] Multi-source analysis (e.g. LinkedIn and other portals).
