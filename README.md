@@ -1,2 +1,71 @@
-# ValueLens
-ValueLens helps job seekers and professionals quickly extract and summarize a company’s mission and values from their website.
+# ValueLens - Company Values Extractor
+
+> 🔍 Discover what companies truly stand for. 
+
+ValueLens is a personal project designed to help job-seekers (like myself) quickly analyze a company’s mission and
+values from their website.
+
+Paste a company website URL, and ValueLens will:
+
+* Scrape mission & values statements
+* Summarize them with AI (OpenAI GPT-4o-mini)
+* Highlight the original paragraphs
+
+This helps with:
+
+* Deciding if a company matches your values
+* Preparing tailored CVs and cover letters
+* Saving time in the job search process
+
+*I started this project because I found myself many times digging into a company's website trying to understand their
+values (and to see if they have any). At the same time, I wanted to sharpen my Generative AI skills.
+I realised this project can help both develop and automate a repetitive task.*
+
+## 🛠 Tech Stack
+
+* Python 3.12+
+* `uv` for project management 
+* OpenAI API (GPT-4o-mini for summarization)
+* `trafilatura` for scraping
+* `Streamlit` for dashboard
+* `pytest` + `pytest-cov` for tests
+* `ruff` for linting & formatting
+
+## 🚀 Roadmap
+
+### Phase 1 – Core MVP ✅ (in progress)
+
+* [ ] URL → scrape mission/values text
+* [ ] Summarize with AI (OpenAI GPT-4o-mini)
+* Streamlit dashboard for interactive use
+    * [ ] Input box for company URL
+    * [ ] Display relevant paragraphs + AI summary
+* [ ] Unit tests for scraping & filtering
+* [ ] Error handling (bad URLs, no values found)
+* [ ] Integration tests
+
+## Phase 2 – History & Export
+
+* [ ] Save analyzed companies (SQLite)
+* [ ] History view inside dashboard
+* [ ] Export summaries (Markdown/PDF)
+* [ ] Tests for persistence and export
+
+## Phase 3 – Smart Analysis
+
+* [ ] NLP-based filtering improvements (spaCy / TF-IDF)
+* [ ] Extract & tag company values (e.g. Innovation, Sustainability)
+* [ ] Side-by-side company comparison
+
+## Phase 4 – Production-grade Polish
+
+* [ ] CI/CD with GitHub Actions (linting, tests, coverage)
+* [ ] Dockerfile for reproducibility
+* [ ] Deploy the application
+* [ ] Add logo, demo GIF, and project badges to README
+
+## 💡 Stretch Goals:
+
+* [ ] Chrome extension (“Analyze with ValueLens”).
+* [ ] AI-based CV tailoring suggestions.
+* [ ] Multi-source analysis (LinkedIn, Crunchbase, Glassdoor).
