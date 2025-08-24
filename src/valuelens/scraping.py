@@ -1,16 +1,26 @@
+"""
+Scraping utilities for extracting text content from company websites.
+"""
+
 import trafilatura
 
 
+def fetch_html(url: str) -> str | None:
+    """Fetch raw HTML content from a URL."""
+    return trafilatura.fetch_url(url)
+
+
 def extract_text(url: str) -> str | None:
-    """Fetch and extract main text content from a given URL.
+    """Extract cleaned text content from a URL.
 
     Args:
-        url: The URL of the website to scrape.
+        url (str): The website URL.
 
     Returns:
-        Extracted text as a string, or None if extraction fails.
+        str | None: The extracted text, or None if extraction fails.
     """
-    downloaded = trafilatura.fetch_url(url)
-    if downloaded:
-        return trafilatura.extract(downloaded)
-    return None
+    html = fetch_html(url)
+    if not html:
+        return None
+
+    return trafilatura.extract(html)

@@ -55,6 +55,9 @@ combine-as-imports = true
 minversion = "7.0"
 addopts = "-ra -q --cov=src --cov-report=term-missing --cov-fail-under=80"
 testpaths = ["tests"]
+markers = [
+    "integration: marks tests that hit the internet or external services"
+]
 
 [tool.coverage.run]
 branch = true
