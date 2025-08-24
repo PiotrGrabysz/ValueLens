@@ -40,9 +40,9 @@ I realised this project can help both develop and automate a repetitive task.*
 * Streamlit dashboard for interactive use
     * [x] Input box for company URL
     * [x] Display relevant paragraphs + AI summary
-* [ ] Unit tests for scraping & filtering
+* [x] Unit tests for scraping & filtering
 * [ ] Error handling (bad URLs, no values found)
-* [ ] Integration tests
+* [x] Integration tests
 
 ## Phase 2 – Crawler
 * [ ] Option to run the application in debug mode (no OpenAI call)
