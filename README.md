@@ -45,7 +45,7 @@ I realised this project can help both develop and automate a repetitive task.*
 * [x] Integration tests
 
 ## Phase 2 – Crawler
-* [ ] Option to run the application in debug mode (no OpenAI call)
+* [x] Option to run the application in debug mode (no OpenAI call)
 * [ ] Search company's website subpages
 
 ## Phase 3 – History & Export
