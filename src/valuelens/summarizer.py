@@ -45,3 +45,10 @@ class MockSummarizer:
     def summarize(text: str) -> str:
         snippet = text[:200].replace("\n", " ")
         return f"[MOCK SUMMARY] Example values summary based on text: {snippet}..."
+
+
+def get_summarizer(debug: bool = False):
+    """Factory to return the right summarizer."""
+    if debug:
+        return MockSummarizer()
+    return OpenAISummarizer()
