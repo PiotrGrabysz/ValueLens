@@ -5,7 +5,7 @@ Scraping utilities for extracting text content from company websites.
 import trafilatura
 
 
-def extract_text(url: str) -> str | None:
+def extract_text(url: str) -> list[str] | None:
     """Extract cleaned text content from a URL.
 
     Args:
@@ -18,7 +18,8 @@ def extract_text(url: str) -> str | None:
     if not html:
         return None
 
-    return trafilatura.extract(html)
+    extracted_text = trafilatura.extract(html)
+    return extracted_text.split("\n")
 
 
 def fetch_html(url: str) -> str | None:

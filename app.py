@@ -2,8 +2,9 @@ import os
 
 import streamlit as st
 
-from src.valuelens.app_logic import process_url
+from src.valuelens.app_logic import AppConfig, process_url
 from src.valuelens.logger import get_logger
+from src.valuelens.scraping.scrapers import scraper_factory
 from src.valuelens.summarizer import get_summarizer
 
 logger = get_logger("ValueLens")
@@ -16,13 +17,18 @@ summarizer = get_summarizer(debug_mode)
 
 st.title("🔍 ValueLens - Company Mission & Values Extractor")
 
-url = st.text_input("Paste company website URL:")
+col1, col2 = st.columns([3, 1])
+url = col1.text_input("Paste company website URL:")
+
+scraper_option = col2.radio("Choose extraction method:", ["Trafilatura", "BeautifulSoup"])
+scraper = scraper_factory(scraper_option)
+
+config = AppConfig(scraper=scraper, summarizer=summarizer)
 
 if st.button("Analyze Website"):
     logger.info(f"Analysing content of {url=}")
     with st.spinner("Scraping website..."):
-        result = process_url(url, summarizer)
-        logger.info(f"Extracted text: {result.raw_text[:1000]}")
+        result = process_url(url, config)
 
     if result.summary:
         st.subheader("📌 Summary")
@@ -33,7 +39,7 @@ if st.button("Analyze Website"):
             with st.expander("Show paragraph"):
                 st.write(p)
 
-    elif not result.raw_text:
+    elif not result.all_paragraphs:
         st.error("❌ Could not extract text from this website.")
         logger.error("Could not extract text from this website.")
 

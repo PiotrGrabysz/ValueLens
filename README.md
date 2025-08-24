@@ -26,7 +26,7 @@ I realised this project can help both develop and automate a repetitive task.*
 * Python 3.12+
 * `uv` for project management 
 * OpenAI API (GPT-4o-mini for summarization)
-* `trafilatura` for scraping
+* `trafilatura` and `BeautifulSoup4` for scraping
 * `Streamlit` for dashboard
 * `pytest` + `pytest-cov` for tests
 * `ruff` for linting & formatting
