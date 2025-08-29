@@ -34,6 +34,10 @@ def extract_sections_from_text(
     for header in soup.find_all(headers_to_find):
         logger.debug(header)
         header_text = header.get_text(strip=True)
+        if should_skip_header(header_text):
+            logger.debug("Skipping the header because it's suspected to be a navigation header.")
+            continue
+
         content_parts: list[str] = []
 
         # Collect paragraphs until next header
@@ -60,6 +64,29 @@ def _raise_if_incorrect_header(smallest_header_to_find: int) -> None:
         raise ValueError("Header can't be smaller than bigger than <h1>!")
     if smallest_header_to_find > 6:
         raise ValueError("Header can't be smaller than smaller than <h6>!")
+
+
+def should_skip_header(text: str) -> bool:
+    """Heuristic filter for meaningful headers."""
+    if not text:
+        return True
+
+    stripped = text.strip()
+    words = stripped.split()
+
+    # Too short
+    if len(words) < 2:
+        return True
+
+    # Check for alphabetic content
+    if not any(word.isalpha() for word in words):
+        return True
+
+    # Drop ALL CAPS headers (navigation bars often are like this)
+    if stripped.isupper():
+        return True
+
+    return False
 
 
 def fetch_html(url: str) -> str | None:

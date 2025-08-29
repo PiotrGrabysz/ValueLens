@@ -9,6 +9,7 @@ from src.valuelens.scraping.extract_with_headers import (
     extract_text,
     fetch_html,
     parse_content_section_to_markdown,
+    should_skip_header,
 )
 
 SAMPLE_HTML = """
@@ -20,6 +21,8 @@ SAMPLE_HTML = """
     <p>Innovation, sustainable growth...</p>
     <h3>Our approach</h3>
     <p>We focus on the client...</p>
+    <h2>Contact</h2>
+    <p>This is a useless nav section.</p>
   </body>
 </html>
 """
@@ -56,6 +59,11 @@ class TestExtractSectionsFromText:
         sections = extract_sections_from_text(sample_html, smallest_header_to_find=3)
 
         assert bool(sections) == should_contain
+
+    def test_nav_sections_are_excluded(self):
+        sections = extract_sections_from_text(SAMPLE_HTML)
+
+        assert all("contact" != section.header.lower() for section in sections)
 
 
 class TestFetchURL:
@@ -106,3 +114,14 @@ class TestExtractText:
 
         assert "### Who we are?" in text
         assert "dynamic team" in text
+
+
+class TestShouldSkipHeader:
+    def test_if_skips_too_short(self):
+        assert should_skip_header("Word") is True
+
+    def test_if_skips_not_alpha_numeric(self):
+        assert should_skip_header("###") is True
+
+    def test_if_skips_sll_caps(self):
+        assert should_skip_header("ALL CAPS HEADER") is True
