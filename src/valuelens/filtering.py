@@ -1,8 +1,8 @@
 """Filtering logic to find mission/values-related paragraphs."""
 
-KEYWORDS_ENG = ["mission", "vision", "values", "purpose", "about us", "who we are"]
-KEYWORDS_PL = ["misja", "wizja", "wartości", "cel", "o nas", "kim jesteśmy"]
-KEYWORDS = KEYWORDS_ENG + KEYWORDS_PL
+KEYWORDS_ENG = {"mission", "vision", "values", "purpose", "about us", "who we are"}
+KEYWORDS_PL = {"misja", "wizja", "wartości", "cel", "o nas", "kim jesteśmy"}
+KEYWORDS = KEYWORDS_ENG.union(KEYWORDS_PL)
 
 
 def filter_relevant(paragraphs: list[str]) -> list[str]:
