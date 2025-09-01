@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-import requests
 from bs4 import BeautifulSoup
 
 from src.valuelens.logger import get_logger
@@ -16,8 +15,7 @@ class ContentSection:
     content: str
 
 
-def extract_text(url: str) -> list[str] | None:
-    html = fetch_html(url)
+def extract_text(html: str) -> list[str]:
     sections = extract_sections_from_text(html)
     parsed_sections = [parse_content_section_to_markdown(section) for section in sections]
     return parsed_sections
@@ -87,16 +85,6 @@ def should_skip_header(text: str) -> bool:
         return True
 
     return False
-
-
-def fetch_html(url: str) -> str | None:
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-    except requests.RequestException:
-        return None
-
-    return response.content
 
 
 def parse_content_section_to_markdown(section: ContentSection) -> str:

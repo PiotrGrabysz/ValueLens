@@ -1,13 +1,9 @@
-from unittest.mock import Mock, patch
-
 import pytest
-import requests
 
 from src.valuelens.scraping.extractors.extract_with_headers import (
     ContentSection,
     extract_sections_from_text,
     extract_text,
-    fetch_html,
     parse_content_section_to_markdown,
     should_skip_header,
 )
@@ -66,27 +62,6 @@ class TestExtractSectionsFromText:
         assert all("contact" != section.header.lower() for section in sections)
 
 
-class TestFetchURL:
-    @staticmethod
-    def test_http_error():
-        """Simulate HTTP 404 error."""
-        mock_response = Mock()
-        mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError()
-
-        with patch("requests.get", return_value=mock_response):
-            result = fetch_html("http://fake-url.com")
-
-        assert result is None
-
-    @staticmethod
-    def test_connection_error():
-        """Simulate a network failure."""
-        with patch("requests.get", side_effect=requests.exceptions.ConnectionError):
-            result = fetch_html("http://fake-url.com")
-
-        assert result is None
-
-
 def test_parse_content_section_to_markdown():
     section = ContentSection(header="Who we are?", content="We are a dynamic team...")
     expected_text = "### Who we are?\nWe are a dynamic team..."
@@ -98,18 +73,8 @@ def test_parse_content_section_to_markdown():
 
 class TestExtractText:
     @staticmethod
-    @pytest.fixture(scope="class")
-    def mock_requests_get():
-        with patch("requests.get") as mock_get:
-            mock_response = Mock()
-            mock_response.status_code = 200
-            mock_response.content = SAMPLE_HTML
-            mock_get.return_value = mock_response
-            yield mock_get
-
-    @staticmethod
-    def test_extracted_text_contains_sections(mock_requests_get):
-        paragraphs = extract_text("http://fake-url.com")
+    def test_extracted_text_contains_sections():
+        paragraphs = extract_text(SAMPLE_HTML)
         text = "\n".join(paragraphs)
 
         assert "### Who we are?" in text
