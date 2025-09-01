@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from src.valuelens.scraping.extract_with_headers import (
+from src.valuelens.scraping.extractors.extract_with_headers import (
     ContentSection,
     extract_sections_from_text,
     extract_text,

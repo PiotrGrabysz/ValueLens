@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
 from src.valuelens.filtering import filter_relevant
-from src.valuelens.scraping.scrapers import Scraper
+from src.valuelens.scraping.extractors.factory import Extractor
 from src.valuelens.summarizer import Summarizer
 
 
 @dataclass
 class AppConfig:
-    scraper: Scraper
+    scraper: Extractor
     summarizer: Summarizer
 
 

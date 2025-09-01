@@ -4,7 +4,7 @@ import streamlit as st
 
 from src.valuelens.app_logic import AppConfig, process_url
 from src.valuelens.logger import get_logger
-from src.valuelens.scraping.scrapers import scraper_factory
+from src.valuelens.scraping.extractors.factory import extractor_factory
 from src.valuelens.summarizer import get_summarizer
 
 logger = get_logger("ValueLens")
@@ -21,7 +21,7 @@ col1, col2 = st.columns([3, 1])
 url = col1.text_input("Paste company website URL:")
 
 scraper_option = col2.radio("Choose extraction method:", ["Trafilatura", "BeautifulSoup"])
-scraper = scraper_factory(scraper_option)
+scraper = extractor_factory(scraper_option)
 
 config = AppConfig(scraper=scraper, summarizer=summarizer)
 

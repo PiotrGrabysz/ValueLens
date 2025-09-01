@@ -1,12 +1,12 @@
 from collections.abc import Callable
 from typing import Literal
 
-from src.valuelens.scraping import extract_with_headers, simple_extract
+from src.valuelens.scraping.extractors import extract_with_headers, simple_extract
 
-type Scraper = Callable[[str], list[str] | None]
+type Extractor = Callable[[str], list[str] | None]
 
 
-def scraper_factory(method: Literal["Trafilatura", "BeautifulSoup"]) -> Scraper:
+def extractor_factory(method: Literal["Trafilatura", "BeautifulSoup"]) -> Extractor:
     if method == "Trafilatura":
         return simple_extract.extract_text
 

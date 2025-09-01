@@ -2,13 +2,13 @@ from unittest.mock import patch
 
 import pytest
 
-from src.valuelens.scraping.simple_extract import extract_text
+from src.valuelens.scraping.extractors.simple_extract import extract_text
 
 
 def test_extract_text_successful_response():
     """Should return extracted text when HTML is available."""
     with patch(
-        "src.valuelens.scraping.simple_extract.fetch_html",
+        "src.valuelens.scraping.extractors.simple_extract.fetch_html",
         return_value="<html><body><p>Our mission is innovation.</p></body></html>",
     ):
         result = extract_text("https://fake-url.com")
@@ -18,7 +18,7 @@ def test_extract_text_successful_response():
 
 def test_extract_text_no_html():
     """Should return None if fetch_html returns None."""
-    with patch("src.valuelens.scraping.simple_extract.fetch_html", return_value=None):
+    with patch("src.valuelens.scraping.extractors.simple_extract.fetch_html", return_value=None):
         result = extract_text("https://fake-url.com")
 
     assert result is None
