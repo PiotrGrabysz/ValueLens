@@ -57,4 +57,23 @@ def test_crawl_site():
     assert results[1].url == "https://example.com/page2"
 
 
-# TODO: test that the root_url cannot be searched twice
+def test_page_cannot_be_searched_twice():
+    page_with_link_to_itself = {
+        "https://example.com": """
+            <html>
+              <body>
+                <a href="https://example.com">Example</a>
+                <p>Home Page Page</p>
+              </body>
+            </html>
+        """
+    }
+
+    def fake_fetch(url: str) -> str | None:
+        return page_with_link_to_itself.get(url)
+
+    results = crawl_site(
+        "https://example.com", max_depth=1, fetcher=fake_fetch, extractor=extract_text
+    )
+
+    assert len(results) == 1
