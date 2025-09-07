@@ -41,11 +41,11 @@ def crawl_site(
     Crawl a site starting from root_url, following links within same domain.
     """
     visited = set()
-    results = []
+    results: list[PageResult] = []
 
     root_domain = get_domain(root_url)
 
-    def _crawl(url: str, depth: int):
+    def _crawl(url: str, depth: int) -> None:
         if url in visited or len(results) >= max_pages or depth > max_depth:
             return
         visited.add(url)

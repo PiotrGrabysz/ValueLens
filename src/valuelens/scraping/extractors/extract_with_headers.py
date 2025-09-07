@@ -23,7 +23,7 @@ def extract_text(html: str) -> list[str]:
 
 def extract_sections_from_text(
     text: str, smallest_header_to_find: int = SMALLEST_HEADER_TO_FIND
-) -> list[ContentSection] | None:
+) -> list[ContentSection]:
     headers_to_find = _get_applicable_headers(smallest_header_to_find)
 
     soup = BeautifulSoup(text, "html.parser")

@@ -50,7 +50,7 @@ class TestExtractSectionsFromText:
         "header, should_contain",
         [(1, True), (2, True), (3, True), (4, False), (5, False), (6, False)],
     )
-    def test_works_with_specified_headers(header: int, should_contain: bool):
+    def test_works_with_specified_headers(header: int, should_contain: bool) -> None:
         sample_html = f"<h{header}>Who we are?</h{header}><p>We are a dynamic team...</p>"
         sections = extract_sections_from_text(sample_html, smallest_header_to_find=3)
 

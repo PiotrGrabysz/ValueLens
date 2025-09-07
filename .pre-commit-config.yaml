@@ -5,3 +5,11 @@ repos:
       - id: ruff
         args: [--fix]   # auto-fix lint issues
       - id: ruff-format # enforce Ruff formatter
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [ python ]

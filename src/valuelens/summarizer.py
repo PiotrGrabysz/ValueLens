@@ -6,7 +6,7 @@ class Summarizer(Protocol):
 
 
 class OpenAISummarizer:
-    def __init__(self):
+    def __init__(self) -> None:
         from openai import OpenAI
 
         self.client = OpenAI()
@@ -47,7 +47,7 @@ class MockSummarizer:
         return f"[MOCK SUMMARY] Example values summary based on text: {snippet}..."
 
 
-def get_summarizer(debug: bool = False):
+def get_summarizer(debug: bool = False) -> Summarizer:
     """Factory to return the right summarizer."""
     if debug:
         return MockSummarizer()
