@@ -1,11 +1,19 @@
 """Filtering logic to find mission/values-related paragraphs."""
 
+from dataclasses import dataclass
+
 KEYWORDS_ENG = {"mission", "vision", "values", "purpose", "about us", "who we are"}
 KEYWORDS_PL = {"misja", "wizja", "wartości", "cel", "o nas", "kim jesteśmy"}
 KEYWORDS = KEYWORDS_ENG.union(KEYWORDS_PL)
 
 
-def filter_relevant(paragraphs: list[str]) -> list[str]:
+@dataclass
+class Paragraph:
+    text: str
+    source: str
+
+
+def filter_relevant(paragraphs: list[Paragraph]) -> list[Paragraph]:
     """Filter text into relevant paragraphs based on keywords.
 
     Websites might be in both English and Polish, so it searches for keywords in both languages.
@@ -16,7 +24,11 @@ def filter_relevant(paragraphs: list[str]) -> list[str]:
     Returns:
         List of relevant paragraphs containing keywords.
     """
-    return [p for p in paragraphs if contains_keyword(p) and len(p.strip()) > 50]
+    return [p for p in paragraphs if is_relevant(p.text)]
+
+
+def is_relevant(text: str) -> bool:
+    return contains_keyword(text) and len(text.strip()) > 50
 
 
 def contains_keyword(text: str) -> bool:

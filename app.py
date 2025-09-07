@@ -23,7 +23,7 @@ url = col1.text_input("Paste company website URL:")
 scraper_option = col2.radio("Choose extraction method:", ["Trafilatura", "BeautifulSoup"])
 scraper = extractor_factory(scraper_option)
 
-config = AppConfig(scraper=scraper, summarizer=summarizer)
+config = AppConfig(extractor=scraper, summarizer=summarizer)
 
 if st.button("Analyze Website"):
     logger.info(f"Analysing content of {url=}")
@@ -37,7 +37,7 @@ if st.button("Analyze Website"):
         st.subheader("📄 Relevant Paragraphs")
         for p in result.relevant_paragraphs:
             with st.expander("Show paragraph"):
-                st.write(p)
+                st.write(f"{p.text}\n\nsource: {p.source}")
 
     elif not result.all_paragraphs:
         st.error("❌ Could not extract text from this website.")

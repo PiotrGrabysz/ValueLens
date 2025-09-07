@@ -1,24 +1,60 @@
-from unittest.mock import Mock, patch
-
-import requests
-
-from src.valuelens.scraping.crawler import fetch_html
+from src.valuelens.scraping.crawler import crawl_site, parse_links
+from src.valuelens.scraping.extractors.simple_extract import extract_text
 
 
-def test_http_error():
-    """Simulate HTTP 404 error."""
-    mock_response = Mock()
-    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError()
+def test_parse_links_relative_link():
+    html = """
+    <html>
+      <body>
+        <a href="/about">About</a>
+        <a href="https://example.com/contact">Contact</a>
+      </body>
+    </html>
+    """
+    links = parse_links(html, base_url="https://example.com")
+    assert "https://example.com/about" in links
 
-    with patch("requests.get", return_value=mock_response):
-        result = fetch_html("http://fake-url.com")
 
-    assert result is None
+def test_parse_links_absolute_link():
+    html = """
+    <html>
+      <body>
+        <a href="https://example.com/contact">Contact</a>
+      </body>
+    </html>
+    """
+    links = parse_links(html, base_url="https://example.com")
+    assert "https://example.com/contact" in links
 
 
-def test_connection_error():
-    """Simulate a network failure."""
-    with patch("requests.get", side_effect=requests.exceptions.ConnectionError):
-        result = fetch_html("http://fake-url.com")
+def test_crawl_site():
+    pages = {
+        "https://example.com": """
+            <html>
+              <body>
+                <a href="https://example.com/page2">Next</a>
+                <p>Home Page Page</p>
+              </body>
+            </html>
+        """,
+        "https://example.com/page2": """
+            <html>
+              <body><p>Page 2 content</p></body>
+            </html>
+        """,
+    }
 
-    assert result is None
+    def fake_fetch(url: str) -> str | None:
+        return pages.get(url)
+
+    results = crawl_site(
+        "https://example.com", max_depth=1, fetcher=fake_fetch, extractor=extract_text
+    )
+
+    assert len(results) == 2
+
+    assert results[0].url == "https://example.com"
+    assert results[1].url == "https://example.com/page2"
+
+
+# TODO: test that the root_url cannot be searched twice
