@@ -1,16 +1,10 @@
 """Filtering logic to find mission/values-related paragraphs."""
 
-from dataclasses import dataclass
+from src.valuelens.schemas import Paragraph
 
 KEYWORDS_ENG = {"mission", "vision", "values", "purpose", "about us", "who we are"}
 KEYWORDS_PL = {"misja", "wizja", "wartości", "cel", "o nas", "kim jesteśmy"}
 KEYWORDS = KEYWORDS_ENG.union(KEYWORDS_PL)
-
-
-@dataclass
-class Paragraph:
-    text: str
-    source: str
 
 
 def filter_relevant(paragraphs: list[Paragraph]) -> list[Paragraph]:

@@ -1,6 +1,7 @@
 import pytest
 
-from src.valuelens.filtering import Paragraph, filter_relevant, is_relevant
+from src.valuelens.filtering import filter_relevant, is_relevant
+from src.valuelens.schemas import Paragraph
 
 
 def test_filter_text_with_keywords_returns_non_empty_list(sample_paragraphs):
