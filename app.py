@@ -55,9 +55,10 @@ def analyze_website(url: str, config: AppConfig, extraction_option: str, max_pag
         st.write(result.summary)
 
         st.subheader("📄 Relevant Paragraphs")
-        for p in result.relevant_paragraphs:  # type: ignore
-            with st.expander("Show paragraph"):
-                st.write(f"{p.text}\n\nsource: {p.source}")
+        with st.expander("Show paragraphs..."):
+            for p in result.relevant_paragraphs:  # type: ignore
+                with st.container(border=True):
+                    st.write(f"{p.text}\n\nsource: {p.source}")
 
     elif not result.all_paragraphs:
         st.error("❌ Could not extract text from this website.")
