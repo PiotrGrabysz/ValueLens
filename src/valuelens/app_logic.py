@@ -13,9 +13,9 @@ class AppConfig:
     summarizer: Summarizer
 
 
-def process_url(url: str, config: AppConfig) -> SummaryResult:
+def process_url(url: str, config: AppConfig, max_pages: int) -> SummaryResult:
     """Core app logic: scrape a URL and summarize it."""
-    page_results = crawl_site(root_url=url, extractor=config.extractor)
+    page_results = crawl_site(root_url=url, extractor=config.extractor, max_pages=max_pages)
     paragraphs = _extract_results_into_paragraphs(page_results)
 
     if not page_results:

@@ -24,22 +24,24 @@ def analyze_website_page() -> None:
     col1, col2 = st.columns([3, 1])
     url = col1.text_input("Paste company website URL:")
 
-    summarizer = get_summarizer(debug_mode)
     extraction_option: Literal["Trafilatura", "BeautifulSoup"] = col2.radio(
         "Choose extraction method:", ["Trafilatura", "BeautifulSoup"]
     )
+    crawler_max_pages = col2.slider("Number of pages to crawl", min_value=1, max_value=10)
+
+    summarizer = get_summarizer(debug_mode)
     extractor = extractor_factory(extraction_option)
 
     config = AppConfig(extractor=extractor, summarizer=summarizer)
 
     if st.button("Analyze Website"):
         logger.info(f"Analysing content of {url=}")
-        analyze_website(url, config, extraction_option)
+        analyze_website(url, config, extraction_option, crawler_max_pages)
 
 
-def analyze_website(url: str, config: AppConfig, extraction_option: str) -> None:
+def analyze_website(url: str, config: AppConfig, extraction_option: str, max_pages: int) -> None:
     with st.spinner("Scraping website..."):
-        result = process_url(url, config)
+        result = process_url(url, config, max_pages)
 
     repo.save_analysis(
         root_url=url,
