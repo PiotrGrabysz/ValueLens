@@ -50,10 +50,10 @@ I realised this project can help both develop and automate a repetitive task.*
 
 ## Phase 3 – History & Export
 
-* [ ] Save analyzed companies (SQLite)
-* [ ] History view inside dashboard
+* [x] Save analyzed companies (SQLite + SQLAlchemy)
+* [x] History view inside dashboard
 * [ ] Export summaries (Markdown/PDF)
-* [ ] Tests for persistence and export
+* [x] Tests for persistence and export
 
 ## Phase 4 – Smart Analysis
 
