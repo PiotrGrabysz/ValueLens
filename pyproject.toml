@@ -23,6 +23,13 @@ tests = [
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
 ]
+[project.optional-dependencies]
+spacy = [
+    "en-core-web-sm",
+    "langdetect>=1.0.9",
+    "pl-core-news-sm",
+    "spacy>=3.8.7",
+]
 
 [tool.ruff]
 line-length = 100
@@ -94,5 +101,9 @@ files = ["src", "tests"]
 module = "tests.*"
 disallow_untyped_defs = false
 disallow_untyped_calls = false
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+pl-core-news-sm = { url = "https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl" }
 
 

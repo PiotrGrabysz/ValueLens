@@ -26,6 +26,7 @@ I realised this project can help both develop and automate a repetitive task.*
 * Python 3.12+
 * `uv` for project management 
 * OpenAI API (GPT-4o-mini for summarization)
+* `SpaCy` for content filtering
 * `trafilatura` and `BeautifulSoup4` for scraping
 * `Streamlit` for dashboard
 * `pytest` + `pytest-cov` for tests
@@ -44,32 +45,57 @@ I realised this project can help both develop and automate a repetitive task.*
 * [ ] Error handling (bad URLs, no values found)
 * [x] Integration tests
 
-## Phase 2 – Crawler
+### Phase 2 – Crawler
 * [x] Option to run the application in debug mode (no OpenAI call)
 * [x] Search company's website subpages
 
-## Phase 3 – History & Export
+### Phase 3 – History & Export
 
 * [x] Save analyzed companies (SQLite + SQLAlchemy)
 * [x] History view inside dashboard
 * [ ] Export summaries (Markdown/PDF)
 * [x] Tests for persistence and export
 
-## Phase 4 – Smart Analysis
+### Phase 4 – Smart Analysis
 
-* [ ] NLP-based filtering improvements (spaCy / TF-IDF)
+* [x] NLP-based filtering improvements (spaCy)
 * [ ] Extract & tag company values (e.g. Innovation, Sustainability)
-* [ ] Side-by-side company comparison
 
-## Phase 5 – Production-grade Polish
+### Phase 5 – Production-grade Polish
 
 * [ ] CI/CD with GitHub Actions (linting, tests, coverage)
 * [ ] Dockerfile for reproducibility
 * [ ] Deploy the application
 * [ ] Add logo, demo GIF, and project badges to README
 
-## 💡 Stretch Goals:
+### 💡 Stretch Goals:
 
+* [ ] Side-by-side company comparison
 * [ ] Chrome extension (“Analyze with ValueLens”).
 * [ ] AI-based CV tailoring suggestions.
 * [ ] Multi-source analysis (e.g. LinkedIn and other portals).
+
+## Installation
+
+This project is managed by `uv`, so you need to [install](https://docs.astral.sh/uv/getting-started/installation/)
+it first.
+
+Then you can install project's dependencies with
+
+```
+uv sync
+```
+
+It is highly advisable to use SpaCy for filtering relevant text.
+It requires downloading additional language dictionaries, which take around 40 MB.
+You can install the project with this extra dependency with
+
+```
+uv sync --extra spacy
+```
+
+If you also want to install dev dependencies (pytest, linters), you can do so by running
+
+```
+uv sync --group lint --group tests
+```

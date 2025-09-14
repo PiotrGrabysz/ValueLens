@@ -1,10 +1,14 @@
 from dataclasses import dataclass
 
-from src.valuelens.filtering import filter_relevant
+from src.valuelens.filter_text.matchers import HAS_SPACY, KeywordMatcher, RegexMatcher, SpacyMatcher
+from src.valuelens.filter_text.text_analyzer import TextAnalyzer
+from src.valuelens.logger import get_logger
 from src.valuelens.schemas import Paragraph, SummaryResult
 from src.valuelens.scraping.crawler import PageResult, crawl_site
 from src.valuelens.scraping.extractors.factory import Extractor
 from src.valuelens.summarizer import Summarizer
+
+logger = get_logger("ValueLens")
 
 
 @dataclass
@@ -21,7 +25,8 @@ def process_url(url: str, config: AppConfig, max_pages: int) -> SummaryResult:
     if not page_results:
         return SummaryResult(summary=None, relevant_paragraphs=None, all_paragraphs=None)
 
-    relevant_results = filter_relevant(paragraphs)
+    text_analyzer = get_text_analyzer()
+    relevant_results = text_analyzer.filter_relevant(paragraphs)
 
     if not relevant_results:
         return SummaryResult(
@@ -37,6 +42,23 @@ def process_url(url: str, config: AppConfig, max_pages: int) -> SummaryResult:
         relevant_paragraphs=relevant_results,
         all_paragraphs=paragraphs,
     )
+
+
+def get_text_analyzer() -> TextAnalyzer:
+    """Return a TextAnalyzer using SpaCy if available, else RegexMatcher."""
+    matcher: KeywordMatcher
+    if HAS_SPACY:
+        try:
+            matcher = SpacyMatcher()
+            logger.info("Using SpaCy matcher (lemmatization + multilingual).")
+        except (RuntimeError, OSError):
+            logger.warning("Failed to initialize SpaCyMatcher. Falling back to RegexMatcher.")
+            matcher = RegexMatcher()
+    else:
+        matcher = RegexMatcher()
+        logger.info("SpaCy not installed. Using RegexMatcher (basic).")
+
+    return TextAnalyzer(matcher)
 
 
 def _extract_results_into_paragraphs(page_results: list[PageResult]) -> list[Paragraph]:
