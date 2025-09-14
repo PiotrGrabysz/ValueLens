@@ -1,9 +1,9 @@
 from collections.abc import Iterable
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
-from src.valuelens.schemas import Paragraph
+from src.valuelens.schemas import HistoryRecord, Paragraph
 
 from . import models
 from .database import engine
@@ -32,13 +32,26 @@ def save_analysis(
     return analysis
 
 
-def load_history(session: Session, limit: int = 20) -> list[models.CompanyAnalysis]:
+def load_history(session: Session, limit: int = 20) -> list[HistoryRecord]:
     stmt = (
         select(models.CompanyAnalysis)
+        .options(selectinload(models.CompanyAnalysis.paragraphs))
         .order_by(models.CompanyAnalysis.created_at.desc())
         .limit(limit)
     )
-    return list(session.scalars(stmt).unique())
+    results = session.scalars(stmt).unique().all()
+
+    # Convert ORM models → Pydantic DTOs
+    return [
+        HistoryRecord(
+            root_url=r.root_url,
+            summary=r.summary,
+            extractor=r.extractor,
+            created_at=r.created_at,
+            paragraphs=[Paragraph(text=p.text, source=p.source_url) for p in r.paragraphs],
+        )
+        for r in results
+    ]
 
 
 def delete_company(session: Session, company_id: int) -> None:

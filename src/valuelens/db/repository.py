@@ -3,7 +3,7 @@ from contextlib import contextmanager
 
 from sqlalchemy.orm import Session
 
-from src.valuelens.schemas import Paragraph
+from src.valuelens.schemas import HistoryRecord, Paragraph
 
 from . import storage
 from .database import SessionLocal
@@ -53,7 +53,7 @@ class Repository:
         with self.session_scope() as session:
             return storage.save_analysis(session, root_url, summary, extractor, paragraphs)
 
-    def load_history(self, limit: int = 20) -> list[CompanyAnalysis]:
+    def load_history(self, limit: int = 20) -> list[HistoryRecord]:
         with self.session_scope() as session:
             return storage.load_history(session, limit=limit)
 
